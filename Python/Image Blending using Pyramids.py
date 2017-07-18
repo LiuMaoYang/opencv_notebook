@@ -54,7 +54,7 @@ print ''
 # generate Laplacian Pyramid
 lp_pyr1=[]
 lp_pyr2=[]
-for i in range(5,-1,-1):
+for i in range(5,-1,-1):#5 4 3 2 1 0
     lp_pyr1.append(cv2.subtract(pyr_down1[i],pyr_up1[i]))
     lp_pyr2.append(cv2.subtract(pyr_down2[i],pyr_up2[i]))
           
