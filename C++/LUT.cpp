@@ -2,8 +2,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
 #include <iostream>
-/*���Ա任��LUT��
+/*ÏßÐÔ±ä»»£¨LUT£©
 Performs a look-up table transform of an array.
+void LUT(InputArray src, InputArray lut, OutputArray dst, int interpolation=0 )
+lut – look-up table of 256 elements; in case of multi-channel input array, the table should either have a single channel 
+(in this case the same table is used for all channels) or the same number of channels as in the input array.
 */
 
 using namespace std;
