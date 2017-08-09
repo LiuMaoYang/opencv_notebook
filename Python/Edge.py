@@ -20,19 +20,19 @@ Laplacian
  0  1  0]
  cv2.Laplacian(src, ddepth[, dst[, ksize[, scale[, delta[, borderType]]]]]) → dst
 '''
-laplacian = cv2.Laplacian(img, cv2.CV_64F)
-sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=5)
-sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=5)
-
-plt.subplot(2,2,1),plt.imshow(img,cmap = 'gray')
-plt.title('Original'), plt.xticks([]), plt.yticks([])
-plt.subplot(2,2,2),plt.imshow(laplacian,cmap = 'gray')
-plt.title('Laplacian'), plt.xticks([]), plt.yticks([])
-plt.subplot(2,2,3),plt.imshow(sobelx,cmap = 'gray')
-plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
-plt.subplot(2,2,4),plt.imshow(sobely,cmap = 'gray')
-plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
-plt.show()
+# laplacian = cv2.Laplacian(img, cv2.CV_64F)
+# sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=5)
+# sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=5)
+# 
+# plt.subplot(2,2,1),plt.imshow(img,cmap = 'gray')
+# plt.title('Original'), plt.xticks([]), plt.yticks([])
+# plt.subplot(2,2,2),plt.imshow(laplacian,cmap = 'gray')
+# plt.title('Laplacian'), plt.xticks([]), plt.yticks([])
+# plt.subplot(2,2,3),plt.imshow(sobelx,cmap = 'gray')
+# plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+# plt.subplot(2,2,4),plt.imshow(sobely,cmap = 'gray')
+# plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+# plt.show()
 
 '''
 Canny Edge Detection
@@ -73,11 +73,35 @@ Otherwise, they are also discarded.
 cv2.Canny(image, threshold1, threshold2[, edges[, apertureSize[, L2gradient]]]) → edges
 '''
 
-edges = cv2.Canny(img,100,200)
-plt.subplot(121),plt.imshow(img,cmap = 'gray')
-plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
-plt.show()
+# edges = cv2.Canny(img,100,200)
+# plt.subplot(121),plt.imshow(img,cmap = 'gray')
+# plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+# plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+# plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+# plt.show()
 
+def canny_edge(arg):
+    hV = cv2.getTrackbarPos('high_value', 'canny')
+    lV = cv2.getTrackbarPos('low_value', 'canny')
+    bS = cv2.getTrackbarPos('blur_size', 'canny')
+    
+    bS = bS * 2 -1
+    blur = cv2.GaussianBlur(img, (bS,bS), 0)
+    edges = cv2.Canny(blur,lV,hV)
+    cv2.imshow('canny', edges)
 
+# int createTrackbar(const string& trackbarname, const string& winname,
+#      int* value, int count, TrackbarCallback onChange=0, void* userdata=0)
+
+cv2.namedWindow('canny')
+
+cv2.createTrackbar('high_value', 'canny', 200, 255, canny_edge)
+cv2.createTrackbar('low_value', 'canny', 100, 255, canny_edge)
+cv2.createTrackbar('blur_size', 'canny', 2, 5, canny_edge)
+
+while(1):
+    canny_edge(0) # 若无 arg canny_edge(arg), 则出错
+    k = cv2.waitKey(5)
+    if k == 27:
+        break
+cv2.destroyAllWindows()

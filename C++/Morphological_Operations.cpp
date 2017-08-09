@@ -16,7 +16,7 @@ Finding of intensity bumps or holes in an image
 
 Theta(f, t) = 1, if f >=t
 0, else
-c = f 异或 s 
+c = f 异或 s
 • dilation: dilate(f, s) = Theta(c, 1);
 • erosion: erode(f, s) = Theta(c, S);
 • majority: maj(f, s) = Theta(c, S / 2);
@@ -46,7 +46,7 @@ void Morphology_Operations(int, void*);
 
 int main() {
 	String path = "F:/Desktop/2.JPG";
-	Mat img = imread(path);
+	img = imread(path);
 
 	namedWindow("Erosion Demo", CV_WINDOW_AUTOSIZE);
 	namedWindow("Dilation Demo", CV_WINDOW_AUTOSIZE);
@@ -57,7 +57,7 @@ int main() {
 
 	// Create Erosion Trackbar
 	/* C++: int createTrackbar(const string& trackbarname, const string& winname,
-				int* value, int count, TrackbarCallback onChange=0, void* userdata=0)
+	int* value, int count, TrackbarCallback onChange=0, void* userdata=0)
 	*/
 	createTrackbar("Element:\n 0: Rect - 1: Cross - 2: Ellipse", "Erosion Demo",
 		&erosion_elem, max_elem, Erosion);
@@ -80,7 +80,14 @@ int main() {
 	Dilation(0, 0);
 	Morphology_Operations(0, 0);
 
-	waitKey(0);
+	while (1){
+		int c;
+		c = waitKey(5);
+		if ((char)c == 27)
+			break;
+	}
+
+	destroyAllWindows();
 	return 0;
 }
 
@@ -126,7 +133,7 @@ void Dilation(int, void*) {
 	Size ksize = { 2 * dilation_size + 1, 2 * dilation_size + 1 };
 	Mat element = getStructuringElement(type, ksize, Point(dilation_size, dilation_size));
 
-	erode(img, dilation_dst, element);
+	dilate(img, dilation_dst, element);
 	imshow("Dilation Demo", dilation_dst);
 }
 
